@@ -18,16 +18,12 @@ At the end, the result should be something like that:
 
 **Required skills**
 
-computer vision
+- computer vision
+- Images processing
+- Programming skills
+- Electronic
+- Mechanical
 
-Images processing
-
-Programming skills
-
-Electronic
-
-Mechanical
-
-**References**
+# References
 
 https://en.wikipedia.org/wiki/Sudoku

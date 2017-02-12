@@ -1,0 +1,10 @@
+\BOOKMARK [1][-]{section.1}{Cahier des Charges}{}% 1
+\BOOKMARK [0][-]{part.1}{I R\351solution de la grille: Boucle ouverte}{}% 2
+\BOOKMARK [1][-]{section.2}{Acquisition et pr\351-traitement d'images}{part.1}% 3
+\BOOKMARK [1][-]{section.3}{D\351tection de la grille et reconnaissance des chiffres}{part.1}% 4
+\BOOKMARK [2][-]{subsection.3.1}{D\351tection de la grille}{section.3}% 5
+\BOOKMARK [2][-]{subsection.3.2}{D\351tection des cases vides}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.3}{Reconnaissance des chiffres des cases non vides}{section.3}% 7
+\BOOKMARK [1][-]{section.4}{R\351solution de la grille de Sudoku}{part.1}% 8
+\BOOKMARK [1][-]{section.5}{\311lectronique et contr\364le du d\351placement des moteurs}{part.1}% 9
+\BOOKMARK [0][-]{part.2}{II R\351solution de la grille: Boucle ferm\351e}{}% 10

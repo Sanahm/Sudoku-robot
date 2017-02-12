@@ -88,6 +88,25 @@ def tri_insertion(lines,eps_rho,esp_theta):
                     lines[j][0][1],lines[j+1][0][1]=lines[j+1][0][1],lines[j][0][1]
             j -= 1
 
+
+def tri_stat(stat,eps):
+    for i in range(stat.shape[0]):
+        j = i-1
+        while(j>=0):
+            if(abs(stat[j][1]-stat[j+1][1]) < eps and stat[j][0] > stat[j+1][0]):
+                stat[j][0],stat[j][1],stat[j][2],stat[j][3],stat[j+1][0],stat[j+1][1],\
+                stat[j+1][2],stat[j+1][3] = stat[j+1][0],stat[j+1][1],stat[j+1][2],\
+                stat[j+1][3],stat[j][0],stat[j][1],stat[j][2],stat[j][3]            
+            j -=1
+
+def StDev(im):
+    mean = cv2.mean(im)[0]
+    stdev = cv2.mean(np.square(im-mean))[0]
+    return stdev
+
+
+
+             
 def ExtractBoxes(imBinarized,connexity,thresh):
     """ Take a binarized image thresholded and search the eventual boxes inside using thresh
     Parameters:
@@ -118,7 +137,7 @@ def ExtractBoxes(imBinarized,connexity,thresh):
             k += 1
     return stat
 
-def ExtractBoxImage(boxes,img,imgFlat):
+def ExtractBoxImage(boxes,img,imgFlat,method):
     """ Take the input image and extract image from boxes returned by function ExtractBoxes(...)
     Parameters:
     -----------
@@ -134,24 +153,24 @@ def ExtractBoxImage(boxes,img,imgFlat):
     imBox = np.zeros((boxes.shape[0],imgFlat[0]*imgFlat[1]),dtype = img.dtype)
     for i in range(imBox.shape[0]):
         imR = img[stat[i][1]:stat[i][1]+stat[i][3],stat[i][0]:stat[i][0]+stat[i][2]]
-        imR = cv2.resize(imR,imgFlat,interpolation=cv2.INTER_LINEAR)
+        imR = cv2.resize(imR,imgFlat,interpolation=method)
         imBox[i] = np.reshape(imR,imgFlat[0]*imgFlat[1])
     return imBox
 
 
 #def Houg            
     
-im = cv2.imread('C:/Users/Mohamed/Documents/2ASicom/Sudoku-robot/Firmware/images/sud1.png')#,cv2.IMREAD_GRAYSCALE)
+im = cv2.imread('C:/Users/Mohamed/Documents/2ASicom/Sudoku-robot/Firmware/images/sud5.jpg')#,cv2.IMREAD_GRAYSCALE)
 img = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
 lx,ly = img.shape #image weidth and heigth
 #plt.plot(px)
 #plt.show()
 #fig, axes = plt.subplots(2,2)
 ret,imB = binarize(img,cv2.THRESH_OTSU)
-##px = 255 - xyproject(img,axis = 0)
-##py = 255 - xyproject(img,axis = 1)
-##pxB = 255 - xyproject(imB,axis = 0)
-##pyB = 255 - xyproject(imB,axis = 1)
+px = 255 - xyproject(img,axis = 0)
+py = 255 - xyproject(img,axis = 1)
+pxB = 255 - xyproject(imB,axis = 0)
+pyB = 255 - xyproject(imB,axis = 1)
 
 ##edges = cv2.Canny(img,50,150,apertureSize = 3)
 ##print(img.shape[1])
@@ -165,24 +184,26 @@ edges = cv2.Canny(img,50,150,apertureSize = 3)
 lines = cv2.HoughLines(edges,1,np.pi/180,110)
 eps_rho = int(min(lx/9,ly/9)/2)
 eps_theta = np.pi/8
-##tri_insertion(lines,eps_rho,eps_theta)
-##grid = np.zeros((20,2)) #sudoku's grid have 20 lines. 2 =>(rho,theta)
-##j = 0
+def HoughGrid(lines,eps_rho,eps_theta):
+    tri_insertion(lines,eps_rho,eps_theta)
+    grid = np.zeros((20,2)) #sudoku's grid have 20 lines. 2 =>(rho,theta)
+    j = 0
+    for i in range(lines.shape[0]):
+        if(lines[i][0][0] < 0 or lines[i][0][1] < 0):
+            continue
+        if(abs(lines[i][0][0] - grid[j-1][0]) > eps_rho or abs(lines[i][0][1] - grid[j-1][1]) > eps_theta):
+            grid[j] = lines[i][0]
+            j +=1
+        else:
+            grid[j-1] = (grid[j-1] + lines[i][0])/2
+    return grid
+
+
+
+        
 ##for i in range(lines.shape[0]):
-##    if(lines[i][0][0] < 0 or lines[i][0][1] < 0):
-##        continue
-##    if(abs(lines[i][0][0] - grid[j-1][0]) > eps_rho or abs(lines[i][0][1] - grid[j-1][1]) > eps_theta):
-##        grid[j] = lines[i][0]
-##        j +=1
-##    else:
-##        grid[j-1] = (grid[j-1] + lines[i][0])/2
-##
-##
-##
-##        
-##for i in range(grid.shape[0]):
-##    rho = grid[i][0]
-##    theta = grid[i][1]
+##    rho = lines[i][0][0]
+##    theta = lines[i][0][1]
 ##    a = np.cos(theta)
 ##    b = np.sin(theta)
 ##    x0 = a*rho
@@ -193,6 +214,7 @@ eps_theta = np.pi/8
 ##    y2 = int(y0 - 1000*(a))
 ##    cv2.line(im,(x1,y1),(x2,y2),(0,0,255),2)
 ##    cv2.imshow('hjb',im)
+##cv2.imwrite("hough1.png",im)
 ##    while(1):
 ##        k = cv2.waitKey(1) & 0xFF
 ##        if(k==ord('c')):
@@ -200,9 +222,18 @@ eps_theta = np.pi/8
 ##            break
     
 stat = ExtractBoxes(imB,connexity = 8,thresh=(lx/18,ly/18,lx/3,ly/3))
-fig,axis = plt.subplots(9,9)
-fig.subplots_adjust(hspace=0.3, wspace=0.3)
-imBox = ExtractBoxImage(stat,img,(28,28))
+tri_stat(stat,lx/18)
+##fig,axis = plt.subplots(9,9)
+##fig.subplots_adjust(hspace=0.3, wspace=0.3)
+I = (imB/255)*img
+imBox = ExtractBoxImage(stat,I,(28,28),cv2.INTER_CUBIC)
+imBox1 = ExtractBoxImage(stat,I,(28,28),cv2.INTER_AREA)
+imBox2 = ExtractBoxImage(stat,I,(28,28),cv2.INTER_LINEAR)
+imBox3 = ExtractBoxImage(stat,I,(28,28),cv2.INTER_LANCZOS4)
+mat = np.array([StDev(imBox[i]) for i in range(imBox.shape[0])]).reshape((9,9))
+mean_stdev = cv2.mean(mat)[0]
+alpha = 0.7
+mat = (mat > mean_stdev*alpha)*1 #pour convertir bool -> int
 ##for i in range(imBox.shape[0]):
 ##    cv2.imwrite('C:/Users/Mohamed/Documents/2ASicom/Sudoku-robot/Firmware/images/tests/box '+str(i)+'.png',imBox[i].reshape((28,28)))
 ##for i,ax in enumerate(axis.flat):
@@ -226,10 +257,10 @@ imBox = ExtractBoxImage(stat,img,(28,28))
 ##cv2.imshow('sud1',imB)
 ##cv2.waitKey(0)
 ##cv2.destroyAllWindows()
-
-
-##plt.subplot(221),plt.plot(px),plt.title("projection img sur x")
-##plt.subplot(222),plt.plot(py),plt.title("projection img sur y")
+#plt.subplots_adjust(-0.1,-0.1)
+##plt.subplot(221),plt.imshow(img,cmap="gray"),plt.title("image de la grille")
+##plt.subplot(222),plt.plot(px),plt.title("projection img sur x"),plt.xlabel("x"),plt.ylabel("nbre pixel")
+##plt.subplot(224),plt.plot(py),plt.title("projection img sur y"),plt.xlabel("y"),plt.ylabel("nbre pixel")
 ##plt.subplot(223),plt.plot(pxB),plt.title("projection imB sur x")
 ##plt.subplot(224),plt.plot(pyB),plt.title("projection imB sur y")
 ##plt.show()

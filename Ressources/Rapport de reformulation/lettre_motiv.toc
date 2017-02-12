@@ -1,0 +1,11 @@
+\select@language {french}
+\contentsline {section}{\numberline {1}Cahier des Charges}{2}{section.1}
+\contentsline {part}{I\hspace {1em}R\IeC {\'e}solution de la grille: Boucle ouverte}{2}{part.1}
+\contentsline {section}{\numberline {2}Acquisition et pr\IeC {\'e}-traitement d'images}{2}{section.2}
+\contentsline {section}{\numberline {3}D\IeC {\'e}tection de la grille et reconnaissance des chiffres}{3}{section.3}
+\contentsline {subsection}{\numberline {3.1}D\IeC {\'e}tection de la grille}{3}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}D\IeC {\'e}tection des cases vides}{5}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Reconnaissance des chiffres des cases non vides}{5}{subsection.3.3}
+\contentsline {section}{\numberline {4}R\IeC {\'e}solution de la grille de Sudoku}{5}{section.4}
+\contentsline {section}{\numberline {5}\'{E}lectronique et contr\IeC {\^o}le du d\IeC {\'e}placement des moteurs}{5}{section.5}
+\contentsline {part}{II\hspace {1em}R\IeC {\'e}solution de la grille: Boucle ferm\IeC {\'e}e}{6}{part.2}

@@ -6,6 +6,7 @@ import time
 from datetime import timedelta
 import math
 from prepross import *
+#from database import *
 
 def CreateNewWeights(shape):
     """
@@ -16,6 +17,10 @@ def CreateNewWeights(shape):
     return tf.Variable(tf.truncated_normal(shape,stddev=0.05))
 
 def CreateNewBiases(length):
+    """
+    permet de créer rapidement un vecteur de biais de taille length suivant la loi
+    uniforme
+    """
     
     return tf.Variable(tf.constant(0.05,shape=[length]))
 
@@ -193,7 +198,7 @@ filter1_size = 5
 filter2_size = 5
 num_filter1 = 16
 num_filter2 = 36
-train_batch_size = 64
+train_batch_size = 256#22
 
 data = input_data.read_data_sets("/tmp/tensorflow",one_hot=True)
 data.test.cls = np.array([label.argmax() for label in data.test.labels])
@@ -269,7 +274,7 @@ init = tf.global_variables_initializer()
 saver = tf.train.Saver()
 session = tf.Session()
 session.run(init)
-#optimize(5000)
+#optimize(4000)
 saver.restore(session,"/tmp/tensorflow/tensor")
 feed_dict = {x:(255-imBox)/255}
 feed_dict1 = {x:(255-imBox1)/255}

@@ -60,6 +60,8 @@ def binarize(img,flag):
     """
     retval = 0
     imB = None
+    if(flag == cv2.THRESH_BINARY):
+        retval,imB = cv2.threshold(img,0,255,cv2.THRESH_BINARY)
     if(flag == cv2.THRESH_OTSU):
         retval,imB = cv2.threshold(img,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
     if(flag == cv2.ADAPTIVE_THRESH_GAUSSIAN_C):
@@ -69,6 +71,7 @@ def binarize(img,flag):
     return retval,imB
 
 def tri_insertion(lines,eps_rho,esp_theta):
+    """ Take the vector <lines> return by """
     for i in range(lines.shape[0]):
         j=i-1
         while(j>=0):
@@ -153,16 +156,17 @@ def ExtractBoxImage(boxes,img,imgFlat,method):
     imBox = np.zeros((boxes.shape[0],imgFlat[0]*imgFlat[1]),dtype = img.dtype)
     for i in range(imBox.shape[0]):
         imR = img[stat[i][1]:stat[i][1]+stat[i][3],stat[i][0]:stat[i][0]+stat[i][2]]
-        imR = cv2.resize(imR,imgFlat,interpolation=method)
+        ret,imR = binarize(cv2.resize(imR,imgFlat,interpolation=method),cv2.THRESH_BINARY)
         imBox[i] = np.reshape(imR,imgFlat[0]*imgFlat[1])
     return imBox
 
 
 #def Houg            
-    
-im = cv2.imread('C:/Users/Mohamed/Documents/2ASicom/Sudoku-robot/Firmware/images/sud5.jpg')#,cv2.IMREAD_GRAYSCALE)
+
+im = cv2.imread('C:/Users/Mohamed/Documents/2ASicom/Sudoku-robot/Firmware/images/sud1.png')#,cv2.IMREAD_GRAYSCALE)
 img = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
-lx,ly = img.shape #image weidth and heigth
+#img = (img >0.1)*img
+lx,ly = img.shape #image width and heigth
 #plt.plot(px)
 #plt.show()
 #fig, axes = plt.subplots(2,2)
@@ -226,13 +230,13 @@ tri_stat(stat,lx/18)
 ##fig,axis = plt.subplots(9,9)
 ##fig.subplots_adjust(hspace=0.3, wspace=0.3)
 I = (imB/255)*img
-imBox = ExtractBoxImage(stat,I,(28,28),cv2.INTER_CUBIC)
-imBox1 = ExtractBoxImage(stat,I,(28,28),cv2.INTER_AREA)
-imBox2 = ExtractBoxImage(stat,I,(28,28),cv2.INTER_LINEAR)
-imBox3 = ExtractBoxImage(stat,I,(28,28),cv2.INTER_LANCZOS4)
+imBox = ExtractBoxImage(stat,imB,(28,28),cv2.INTER_CUBIC)
+imBox1 = ExtractBoxImage(stat,imB,(28,28),cv2.INTER_AREA)
+imBox2 = ExtractBoxImage(stat,imB,(28,28),cv2.INTER_LINEAR)
+imBox3 = ExtractBoxImage(stat,imB,(28,28),cv2.INTER_LANCZOS4)
 mat = np.array([StDev(imBox[i]) for i in range(imBox.shape[0])]).reshape((9,9))
 mean_stdev = cv2.mean(mat)[0]
-alpha = 0.7
+alpha = 1
 mat = (mat > mean_stdev*alpha)*1 #pour convertir bool -> int
 ##for i in range(imBox.shape[0]):
 ##    cv2.imwrite('C:/Users/Mohamed/Documents/2ASicom/Sudoku-robot/Firmware/images/tests/box '+str(i)+'.png',imBox[i].reshape((28,28)))

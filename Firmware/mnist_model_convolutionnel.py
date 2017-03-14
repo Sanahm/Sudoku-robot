@@ -127,7 +127,7 @@ def optimize(num_iterations):
     print("Time usage: " + str(timedelta(seconds=int(round(time_dif)))))
 
 # Split the test-set into smaller batches of this size.
-test_batch_size = 256
+test_batch_size = 22 #256
 
 def print_test_accuracy():
 
@@ -198,7 +198,7 @@ filter1_size = 5
 filter2_size = 5
 num_filter1 = 16
 num_filter2 = 36
-train_batch_size = 256#22
+train_batch_size = 42 #256#22
 
 data = input_data.read_data_sets("/tmp/tensorflow",one_hot=True)
 data.test.cls = np.array([label.argmax() for label in data.test.labels])
@@ -275,18 +275,18 @@ saver = tf.train.Saver()
 session = tf.Session()
 session.run(init)
 #optimize(4000)
-saver.restore(session,"/tmp/tensorflow/tensor")
+saver.restore(session,"/tmp/tensor/tensor_v1")
 feed_dict = {x:(255-imBox)/255}
 feed_dict1 = {x:(255-imBox1)/255}
 feed_dict2 = {x:(255-imBox2)/255}
 feed_dict3 = {x:(255-imBox3)/255}
-recogn = session.run(y_pred_cls,feed_dict).reshape((9,9))*mat
-recogn1 = session.run(y_pred_cls,feed_dict1).reshape((9,9))*mat
-recogn2 = session.run(y_pred_cls,feed_dict2).reshape((9,9))*mat
-recogn3 = session.run(y_pred_cls,feed_dict3).reshape((9,9))*mat
+recogn = session.run(y_pred_cls,feed_dict).reshape((9,9))
+recogn1 = session.run(y_pred_cls,feed_dict1).reshape((9,9))
+recogn2 = session.run(y_pred_cls,feed_dict2).reshape((9,9))
+recogn3 = session.run(y_pred_cls,feed_dict3).reshape((9,9))
 #recogn = np.ceil((recogn+recogn1)/2)
 #recogn = recogn.astype(int)
-#path = saver.save(session,"/tmp/tensorflow/tensor")
+#path = saver.save(session,"/tmp/tensor/tensor_v1")
 #print("model path is: %s" % path)
 
 ##tf.add_to_collection("accuracy",accuracy)
@@ -304,7 +304,7 @@ recogn3 = session.run(y_pred_cls,feed_dict3).reshape((9,9))*mat
 ##
 ##print_accuracy(mnist.test,session)
 
-
+cv2.imshow('nk',img)
 
 
 

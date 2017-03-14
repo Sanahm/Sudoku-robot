@@ -2,7 +2,14 @@ import numpy as np
 import cv2
 import os
 from prepross import *
+import random as rd
 path = 'C:/Users/Mohamed/Documents/2ASicom/Sudoku-robot/Ressources/database/'
+class base(object):
+  def __init__(self,train,test,validation = 0):
+    self.train = train
+    self.test = test
+    self.validation = validation
+    
 
 class DataSet(object):
 
@@ -78,6 +85,29 @@ for file in os.listdir(path):
 num_classes = 10 #chiffres de 0 à 9              
 labels = to_one_hot(np.array(labels),num_classes)
 images = np.array(images)
+test = DataSet(images,labels)
 
-data = DataSet(images,labels)
-data.train = data
+path = 'C:/Users/Mohamed/Documents/2ASicom/Sudoku-robot/Ressources/data/'
+images = []
+labels = []
+image_label = []
+tab = np.zeros(10)
+for file in os.listdir(path):
+    label = [int(s) for s in list(file) if s.isdigit()][0]
+    tab[label] +=1
+    #labels.append(label)
+    image = 255 - cv2.cvtColor(cv2.imread(path+file),cv2.COLOR_BGR2GRAY) #inverser l'image
+    #ret,image = binarize(image,cv2.THRESH_OTSU)
+    #images.append(np.reshape(image/255,image.shape[0]*image.shape[1])) #puis convertir [0,255] ->[0,1]
+    image_label.append((image,label))
+
+num_classes = 10 #chiffres de 0 à 9
+rd.shuffle(image_label)
+for i in range(len(image_label)):
+    images.append(np.reshape(image_label[i][0]/255,image_label[i][0].shape[0]*image_label[i][0].shape[1]))
+    labels.append(image_label[i][1])
+labels = to_one_hot(np.array(labels),num_classes)
+images = np.array(images)
+
+train = DataSet(images,labels)
+data = base(train,test)

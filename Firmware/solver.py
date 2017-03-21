@@ -1,14 +1,35 @@
 
 # update of one column		
 	
-def search_column(mat, num_column): # fill a vector with the numbers of a column already found
+def search_column(mat, num_column):
+        """ Fill a vector with the numbers already found of the column num_column 
+        Parameters:
+        -----------
+        mat: the matrix unsolved
+        num_column: the number of the treated column
+        Return:
+        -------
+        vect: the vector with the numbers already found
+        """
 	vect = []
 	for i in range( len(mat) ):
 		if (len( mat[i][num_column] ) == 1):
 				vect = vect + [mat[i][num_column]]
 	return vect
 	
-def update_column(mat, num_column, vect,c): # verefy in the vector of possibilities if there are the numbers on the previous vector and if it's the case remove the numbers
+def update_column(mat, num_column, vect,c):
+        """ Verefy in the vector of possibilities if there are the numbers on the vector which returned by search_column
+        and if it's the case remove the numbers
+        Parameters:
+        -----------
+        mat: the matrix unsolved
+        num_column: the number of the treated column
+        vect: the vector with the numbers already found
+        c: indicator to know if all the vector of possibilities are reduced to maximum
+        Return:
+        -------
+        c: if c=1 the function modified mat and it has to continu, if not the function is not anymore used
+        """
         for k in range( len( vect) ):
                 for i in range( len( mat ) ):
                         if (len( mat[i][num_column] ) != 1):
@@ -22,6 +43,7 @@ def update_column(mat, num_column, vect,c): # verefy in the vector of possibilit
 # update of one line
 
 def search_line(mat, num_line):
+        """ same than search_column but with a line"""
         vect = []
         for i in range( len( mat[0] ) ):
                 if (len( mat[num_line][i] ) == 1):
@@ -29,12 +51,14 @@ def search_line(mat, num_line):
         return vect
 	
 def update_line(mat, num_line, vect,c):
+        """ same than update_column but with a line"""
         for k in range( len( vect) ):
                 for i in range( len( mat[0] ) ):
                         if (len( mat[num_line][i] ) != 1):
                                 for j in range( len( mat[num_line][i] ) ):
                                         if (mat[num_line][i][j] == vect[k][0]):
                                                 del( mat[num_line][i][j] )
+
                                                 c = 1
                                                 break
         return c
@@ -42,7 +66,15 @@ def update_line(mat, num_line, vect,c):
 
 # update of one bloc 
 
-def identify_bloc(num): # delimitation of blocs
+def identify_bloc(num):
+        """ Delimitate the blocs
+        Parameter:
+        ----------
+        num: the identifier of a bloc
+        Return:
+        -------
+        a vector with the coordonate of bloc
+        """
         if (num == 1):
                 return [ [0,1,2], [0,1,2] ] # bloc at the top on the left
         elif (num == 2):
@@ -63,6 +95,9 @@ def identify_bloc(num): # delimitation of blocs
                 return [ [6,7,8], [6,7,8] ] # bloc at the bottom on the right
 
 def search_bloc(mat, bloc):
+        """ same than serach_column with a bloc
+        Parameter: bloc (coordonate od bloc) replace num_column
+        """
         vect = []
         for i in bloc[0]:
                 for j in bloc[1]:
@@ -71,6 +106,9 @@ def search_bloc(mat, bloc):
         return vect
 
 def update_bloc(mat, bloc, vect,c):
+        """ same than update_column with a bloc
+        Parameter: bloc (coordonate od bloc) replace num_column
+        """
         for k in range( len( vect) ):
                 for i in bloc[0]:
                         for j in bloc[1]:
@@ -85,6 +123,16 @@ def update_bloc(mat, bloc, vect,c):
 # resume
 
 def resume_line(mat, c):
+        """ Update the matrix for all the lines
+        Parameters:
+        -----------
+        mat: the matrix unsolved
+        c: indicator to know if all the vector of possibilities are reduced to maximum
+        Return:
+        -------
+        if c=1 the function modified mat and it has to continu, if not the function is not anymore used
+        until the second upadte (cf update_column2); but it's true if only the three functions return c=0
+        """
         for i in range(len(mat)):
                 vect = []
                 vect = search_line(mat, i)
@@ -92,6 +140,7 @@ def resume_line(mat, c):
         return c
 
 def resume_column(mat, c):
+        """ same than resume_line with a column"""
         for i in range(len(mat[0])):
                 vect = []
                 vect = search_column(mat, i)
@@ -99,6 +148,7 @@ def resume_column(mat, c):
         return c
 
 def resume_bloc(mat, c):
+        """ same than resume_line with a bloc"""
         for i in range(1,10):
                 bloc = []
                 bloc = identify_bloc(i)
@@ -109,8 +159,17 @@ def resume_bloc(mat, c):
 
 # second way to update
 
-def update_line2(mat, num_line): # we search if there is un vector which has a unique number in a line. If it's the case,
-                                 # we replace the vector by this unique number
+def update_line2(mat, num_line):
+        """ we search if there is un vector which has a unique number in a line. If it's the case,
+            we replace the vector by this unique number
+        Parameters:
+        -----------
+        mat: the matrix unsolved
+        num_column: the number of the treated column
+        Return:
+        -------
+        nothing
+        """"
         for i in range(1,10):
                 k = -1 # variable used like a memory
                 for j in range( len( mat[0] ) ):
@@ -118,9 +177,9 @@ def update_line2(mat, num_line): # we search if there is un vector which has a u
                                 for n in range(len( mat[num_line][j] )):
                                         if ( mat[num_line][j][n] == i):
                                                 if ( k == -1):
-                                                        k = j # if k is egal to 0, so it's the first time that we found the number i, 
+                                                        k = j # if k is egal to -1, so it's the first time that we found the number i, 
                                                               # then we memorize the number of the line which has i
-                                                else: # if k is different to 0, ther are two vector which have the number i => we quit this iteration
+                                                else: # if k is different to -1, then there are two vector which have the number i => we quit this iteration
                                                         k = -2
                                                         break
                         elif (mat[num_line][j] == [i]): # if mat[num_line][j] = [i], then we quit the iteration
@@ -133,6 +192,7 @@ def update_line2(mat, num_line): # we search if there is un vector which has a u
 
 
 def update_column2(mat, num_column):
+        """ same than update_lines with a column"""
         for i in range(1,10):
                 k = -1
                 for j in range( len( mat ) ):
@@ -151,9 +211,10 @@ def update_column2(mat, num_column):
                         mat[k][num_column] = [i]
 
 def update_bloc2(mat, bloc):
+        """ same than update_lines with a bloc"""
         for k in range(1,10):
                 l = -1
-                m = 0
+                m = 0 #second memory needed bcause it has to coordinate
                 for i in bloc[0]:
                         for j in bloc[1]:
                                 if ( len( mat[i][j] ) != 1 ):
@@ -175,7 +236,15 @@ def update_bloc2(mat, bloc):
 # resolver
 
 def init( mat):
-        vect_base =[1,2,3,4,5,6,7,8,9]
+        """ transforme the matrix to be used in the algo: change the numbers different to 0 in vector
+        of this number and replaced 0 by the vector [1,2,3,4,5,6,7,8,9]
+        Parameter:
+        ----------
+        mat: matrix with numbers as parameters
+        Return:
+        -------
+        mat: matrix used in the algo with vectors as parameters
+        """
         for i in range(len(mat)):
                 for j in range(len(mat[0])):
                         if (mat[i][j] == 0):
@@ -185,6 +254,15 @@ def init( mat):
         return mat
 
 def test_end(mat):
+        """ verify if the sudoku is solved
+        Parameter:
+        ----------
+        mat: sudoku which is bieng solved
+        Returns:
+        --------
+        1 if it solved
+        0 if not
+        """
         for i in range( len(mat) ):
                 for j in range( len( mat[0]) ):
                         if (len(mat[i][j]) != 1):
@@ -192,12 +270,28 @@ def test_end(mat):
         return 0
 
 def transform(mat):
+        """ replace the vector of one number by this number
+        Parameter:
+        ----------
+        mat: completed matrix with vectors as parameters
+        Return:
+        -------
+        mat: same matrix with numbers as parameters
+        """
         for i in range( len(mat) ):
                 for j in range( len( mat[0]) ):
                         mat[i][j] = mat[i][j][0]
         return mat
 
 def resolver(mat):
+        """ Take the uncompleted sudoku and return it completed
+        Parameter:
+        ----------
+        mat: a matrix 9 by 9 with zeros instead the white cases
+        Return:
+        -------
+        mat: the same matrix with the zeros which are replaced by the correct numbers
+        """
         init( mat)
         while(test_end(mat)):
                 j=j+1
@@ -234,7 +328,7 @@ def resolver(mat):
                         bloc = identify_bloc(i)
                         update_bloc2(mat, bloc)
 
-        #mat = transform(mat)
+        mat = transform(mat)
         return mat
                 
 

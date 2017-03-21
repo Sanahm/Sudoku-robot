@@ -5,7 +5,7 @@ import numpy as np
 import time
 from datetime import timedelta
 import math
-from prepross import *
+from processing import *
 #from database import *
 
 def CreateNewWeights(shape):
@@ -200,7 +200,7 @@ num_filter1 = 16
 num_filter2 = 36
 train_batch_size = 42 #256#22
 
-data = input_data.read_data_sets("/tmp/tensorflow",one_hot=True)
+data = input_data.read_data_sets("C:/Users/kevin/Documents/Sudoku-robot/Firmware/tensor/",one_hot=True)
 data.test.cls = np.array([label.argmax() for label in data.test.labels])
 x = tf.placeholder("float",[None, img_size_flat],name='x')
 x_reshape = tf.reshape(x,shape = [-1,img_size,img_size,num_channels], name='x_reshape')
@@ -275,7 +275,7 @@ saver = tf.train.Saver()
 session = tf.Session()
 session.run(init)
 #optimize(4000)
-saver.restore(session,"/tmp/tensor/tensor_v1")
+saver.restore(session,"C:/Users/kevin/Documents/Sudoku-robot/Firmware/tensor/tensor_v1")
 feed_dict = {x:(255-imBox)/255}
 feed_dict1 = {x:(255-imBox1)/255}
 feed_dict2 = {x:(255-imBox2)/255}

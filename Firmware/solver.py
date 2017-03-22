@@ -11,11 +11,11 @@ def search_column(mat, num_column):
         -------
         vect: the vector with the numbers already found
         """
-	vect = []
-	for i in range( len(mat) ):
-		if (len( mat[i][num_column] ) == 1):
-				vect = vect + [mat[i][num_column]]
-	return vect
+        vect = []
+        for i in range( len(mat) ):
+                if (len( mat[i][num_column] ) == 1):
+                        vect = vect + [mat[i][num_column]]
+        return vect
 	
 def update_column(mat, num_column, vect,c):
         """ Verefy in the vector of possibilities if there are the numbers on the vector which returned by search_column
@@ -169,7 +169,7 @@ def update_line2(mat, num_line):
         Return:
         -------
         nothing
-        """"
+        """
         for i in range(1,10):
                 k = -1 # variable used like a memory
                 for j in range( len( mat[0] ) ):
@@ -232,7 +232,72 @@ def update_bloc2(mat, bloc):
                 if ( l != -1 and l != -2 ):
                         print("bloc")
                         mat[l][m] = [k]
+# security
 
+def security_line( mat, num_line):
+        """ Verify if there is a number twice and if there is a number which is not correct in one line
+        Parameters:
+        -----------
+        mat: the matrix unsolved
+        num_line: the number of the treated line
+        Return:
+        -------
+        nothing
+        """
+        vect = [0]
+        for i in range( len( mat[0] ) ):
+                num = mat[num_line][i]
+                if (num<0 or num>9):
+                        print("bad number at", num_line, i)
+                        exit()
+                elif ( num!=0):
+                        for j in range(len(vect)):
+                                if (num == vect[j]):
+                                        print("there is a number twice in the line ",num_line)
+                                        exit()
+                                vect = vect + [num]
+
+
+def security_column( mat, num_column):
+        """ same than update_lines with a column"""
+        vect = [0]
+        for i in range(len( mat ) ):
+                num = mat[i][num_column]
+                if ( num!=0):
+                        for j in range(len(vect)):
+                                if (num == vect[j]):
+                                        print("there is a number twice in the column",num_column)
+                                        exit()
+                                vect = vect + [num]
+
+def security_bloc( mat, n):
+        """ same than update_lines with a bloc"""
+        vect = [0]
+        bloc = identify_bloc(n)
+        for i in bloc[0]:
+                        for j in bloc[1]:
+                                num = mat[i][j]
+                                if ( num!=0):
+                                        for j in range(len(vect)):
+                                                if (num == vect[j]):
+                                                        print("there is a number twice in the bloc", n)
+                                                        exit()
+                                                vect = vect + [num]
+
+def security(mat):
+        """ verify if there are faults in the matrix
+        Parameter:
+        ----------
+        mat: the matrix unsolved
+        Return:
+        -------
+        nothing
+        """
+        for i in range(9):
+                security_line(mat,i)
+                security_column(mat,i)
+                security_bloc(mat,i+1)
+                
 # resolver
 
 def init( mat):
@@ -292,9 +357,11 @@ def resolver(mat):
         -------
         mat: the same matrix with the zeros which are replaced by the correct numbers
         """
+        security(mat)
         init( mat)
-        while(test_end(mat)):
-                j=j+1
+        secur = 0
+        while(test_end(mat) or secur == 100):
+                secur = secur +1
                 c = 1
                 while( c==1):
                         c = 0

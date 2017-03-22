@@ -163,7 +163,7 @@ def ExtractBoxImage(boxes,img,imgFlat,method):
 
 #def Houg            
 
-im = cv2.imread('C:/Users/kevin/Documents/Sudoku-robot/Firmware/images/sud118.png')#,cv2.IMREAD_GRAYSCALE)
+im = cv2.imread('C:/Users/kevin/Documents/Sudoku-robot/Firmware/images/sud1.png')#,cv2.IMREAD_GRAYSCALE)
 img = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
 #img = (img >0.1)*img
 lx,ly = img.shape #image width and heigth

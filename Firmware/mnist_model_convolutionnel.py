@@ -6,6 +6,7 @@ import time
 from datetime import timedelta
 import math
 from processing import *
+from solver import *
 #from database import *
 
 def CreateNewWeights(shape):

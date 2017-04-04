@@ -219,7 +219,7 @@ def update_bloc2(mat, bloc):
                         for j in bloc[1]:
                                 if ( len( mat[i][j] ) != 1 ):
                                         for n in range(len( mat[i][j] )):
-                                                if ( mat[i][j][n] == i):
+                                                if ( mat[i][j][n] == k):
                                                         if ( l == -1):
                                                                 l = i
                                                                 m = j
@@ -230,7 +230,6 @@ def update_bloc2(mat, bloc):
                                                         l = -2
                                                         break
                 if ( l != -1 and l != -2 ):
-                        print("bloc")
                         mat[l][m] = [k]
 # security
 
@@ -360,40 +359,74 @@ def resolver(mat):
         security(mat)
         init( mat)
         secur = 0
-        while(test_end(mat) or secur == 100):
+        while(test_end(mat) and secur != 100):
                 secur = secur +1
                 c = 1
+                #print(mat)
+                #print()
+                #print("line")
                 while( c==1):
                         c = 0
                         c = resume_line(mat, c)
+                        #print(mat)
+                        #print()
+                        #print("col")
                         c = resume_column(mat, c)
+                        #print(mat)
+                        #print()
+                        #print("bloc")
                         c = resume_bloc(mat, c)
-                        
+                        #print(mat)
+                        #print()
+                        #print("line")
+                        #print()
+                #print()
+                #print(secur)                        
                 for i in range(len(mat)):
                         update_line2(mat, i)
-                        
+
+                #print("line2")
+                #print(mat)
+                #print()
                 while( c==1):
                         c = 0
                         c = resume_line(mat, c)
                         c = resume_column(mat, c)
                         c = resume_bloc(mat, c)
                 c = 1
-                        
+                #print()
+                #print("*********************")
+                #print(mat)
+                #print()
                 for i in range(len(mat[0])):
                         k = 0
                         update_column2(mat, i)
-                        
+
+                #print("col2")
+                #print(mat)
+                #1print()
                 while( c==1):
                         c = 0
                         c = resume_line(mat, c)
                         c = resume_column(mat, c)
                         c = resume_bloc(mat, c)
                 c = 1
-                        
+                #print()
+                #print("*********************")
+                #print(mat)
+                #print()        
                 for i in range(1,10):
                         bloc = []
                         bloc = identify_bloc(i)
                         update_bloc2(mat, bloc)
+
+                #print("bloc2")
+                #print(mat)
+                #print()
+                #print()
+                #print("***********************************************")
+                #print()
+                #print()
 
         mat = transform(mat)
         return mat

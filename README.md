@@ -2,7 +2,7 @@
 
 Sudoku are digital puzzles that computers can solve automatically because they obey some simple mathematical rules.
 
-![alt text] (https://upload.wikimedia.org/wikipedia/commons/f/ff/Sudoku-by-L2G-20050714.svg "sudoku not filled")
+![alt text] (https://upload.wikimedia.org/wikipedia/commons/f/ff/Sudoku-by-L2G-20050714.svg)
 
 The main objective of this project is to build a rudimentary and autonomous robot,like plotting table, which will be able to:
 
@@ -14,7 +14,7 @@ That means the robot must be able to process the grid to be solved in order to d
 
 At the end, the result should be something like that:
 
-![alt text] (https://upload.wikimedia.org/wikipedia/commons/3/31/Sudoku-by-L2G-20050714_solution.svg "sudoku filled")
+![alt text] (https://upload.wikimedia.org/wikipedia/commons/3/31/Sudoku-by-L2G-20050714_solution.svg)
 
 **Required skills**
 

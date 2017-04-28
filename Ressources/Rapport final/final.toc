@@ -1,0 +1,26 @@
+\select@language {french}
+\contentsline {part}{I\hspace {1em}Introduction et cahier des charges}{2}{part.1}
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}
+\contentsline {section}{\numberline {2}Cahier des Charges}{2}{section.2}
+\contentsline {subsection}{\numberline {2.1}Cadre du projet}{2}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Attentes des utilisateurs :}{2}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}D\IeC {\'e}finition des objectifs}{2}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Tests}{2}{subsection.2.4}
+\contentsline {part}{II\hspace {1em}R\IeC {\'e}solution de la grille: Boucle ouverte}{2}{part.2}
+\contentsline {section}{\numberline {3}Acquisition et pr\IeC {\'e}-traitement d'images}{3}{section.3}
+\contentsline {subsection}{\numberline {3.1}Capture et traitement d'image}{3}{subsection.3.1}
+\contentsline {subsubsection}{\numberline {3.1.1}Capture}{3}{subsubsection.3.1.1}
+\contentsline {subsubsection}{\numberline {3.1.2} Traitement}{4}{subsubsection.3.1.2}
+\contentsline {section}{\numberline {4}D\IeC {\'e}tection de la grille et reconnaissance des chiffres}{6}{section.4}
+\contentsline {subsection}{\numberline {4.1}D\IeC {\'e}tection de la grille}{7}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Extraction des cases}{8}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Reconnaissance des chiffres sur les cases}{9}{subsection.4.3}
+\contentsline {section}{\numberline {5}R\IeC {\'e}solution de la grille de Sudoku}{10}{section.5}
+\contentsline {section}{\numberline {6}\'{E}lectronique et contr\IeC {\^o}le du d\IeC {\'e}placement des moteurs}{12}{section.6}
+\contentsline {subsection}{\numberline {6.1}Choix de conception}{12}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Choix des composants}{13}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.3}Contr\IeC {\^o}le des moteurs}{13}{subsection.6.3}
+\contentsline {subsection}{\numberline {6.4}Carte PCB}{14}{subsection.6.4}
+\contentsline {part}{III\hspace {1em}R\IeC {\'e}solution de la grille: Boucle ferm\IeC {\'e}e}{14}{part.3}
+\contentsline {section}{\numberline {7}Tracking}{15}{section.7}
+\contentsline {section}{\numberline {8}Boucler la boucle}{16}{section.8}

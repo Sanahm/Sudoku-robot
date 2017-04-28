@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+import cv2
 from tensorflow.examples.tutorials.mnist import input_data
 import tensorflow as tf
 import matplotlib.pyplot as plt
@@ -5,8 +8,8 @@ import numpy as np
 import time
 from datetime import timedelta
 import math
-from prepross import *
-#from database import *
+from processing import *
+from database import *
 
 def CreateNewWeights(shape):
     """
@@ -16,6 +19,8 @@ def CreateNewWeights(shape):
     """
     return tf.Variable(tf.truncated_normal(shape,stddev=0.05))
 
+
+
 def CreateNewBiases(length):
     """
     permet de créer rapidement un vecteur de biais de taille length suivant la loi
@@ -24,7 +29,29 @@ def CreateNewBiases(length):
     
     return tf.Variable(tf.constant(0.05,shape=[length]))
 
+
+
 def CreateNewConvolutionalLayer(inputs, numOfInputChannel, filterSize, numOfFilters, usePooling=True):
+    """
+    This function allow to create a new convolutional layer.
+    Parameters:
+    -----------
+    inputs: the input image. it is a 4-dimension tensor(you know that image is a 3-dim matrix if you consider channels
+    so just imagine a list of image: t's 4-dim):
+                    1 - the image number
+                    2 - Y-axis of each image
+                    3 - X-axis of each image
+                    4 - channels of each image
+    numOfInputChannel: the number of input channels
+    filterSize: the filter size
+    numOfFilters: number of filter
+    usePooling: if true, use 2x2 max-pooling
+
+    Return:
+    -------
+    layer : the output layer (4-dim)
+    weights: the tensor of weights that has been used    
+    """
     
     shape = [filterSize, filterSize,numOfInputChannel, numOfFilters]
     weights = CreateNewWeights(shape = shape)
@@ -44,15 +71,35 @@ def CreateNewConvolutionalLayer(inputs, numOfInputChannel, filterSize, numOfFilt
     layer = tf.nn.relu(layer)
     return layer,weights
 
+
+
 def FlattenLayer(layer):
+    """
+    Allow you to quick flatten a layer as the layer is a 4-dim tensor, we need to
+    reduce the 4-dim to 2-dim which will be use as the input of the function
+    FullyConnectLayer(...)
+    Parameters:
+    -----------
+    layer: the 4-dim tensor
+    Return:
+    -------
+    flattenedLayer: 2-dim tensor
+    numFeatures: the number of features = img_height * img_width * num_channels
+    """
     
     layerShape = layer.get_shape()
     numFeatures = layerShape[1:4].num_elements()
     flattenedLayer = tf.reshape(layer,[-1,numFeatures])
     return flattenedLayer,numFeatures
 
+
+
+
 def FullyConnectLayer(inputs,numOfinput,numOfOutput,useRelu=True):
-    
+    """
+    Return layer = inputs*weights + biases where weights is a matrix of dim [numOfinput,numOfOutput]
+    and biases of dim numOfOutput
+    """
     weights = CreateNewWeights(shape = [numOfinput,numOfOutput])
     biases = CreateNewBiases(length = numOfOutput)
 
@@ -61,24 +108,23 @@ def FullyConnectLayer(inputs,numOfinput,numOfOutput,useRelu=True):
         layer = tf.nn.relu(layer)
     return layer
 
-def optimizefor(num_of_iteration):
-    avg_cost = 0
-    for i in range(num_of_iteration):
-        x_batch,y_batch = data.train.next_batch(batch_size)
-        feed_dict_train = {x:x_batch, y_true:y_batch}
-        session.run(optimizer,feed_dict=feed_dict_train)
-        avg_cost += session.run(cost_function,feed_dict=feed_dict_train)/num_of_iteration
-    return avg_cost
 
-def print_accuracy(data,session):
-    feed_dict = {x:data.images, y:data.labels, y_cls:data.cls}
-    acc = session.run(accuracy,feed_dict=feed_dict)
-    print("Accuracy:{0:.1%}".format(acc))
 
 # Counter for total number of iterations performed so far.
 total_iterations = 0
 
+
+
 def optimize(num_iterations):
+    """
+    Run optimization on trainning database.
+    Parameters:
+    -----------
+    num_iterations : the number of iteration to converge the model
+    Returns:
+    --------
+    Accuracy each iteration
+    """
     # Ensure we update the global variable rather than a local copy.
     global total_iterations
 
@@ -126,11 +172,22 @@ def optimize(num_iterations):
     # Print the time-usage.
     print("Time usage: " + str(timedelta(seconds=int(round(time_dif)))))
 
+
+
 # Split the test-set into smaller batches of this size.
 test_batch_size = 22 #256
 
-def print_test_accuracy():
 
+
+
+
+
+
+
+def print_test_accuracy():
+    """
+    Allow you to print the accuracy of the model in test database after optimisation
+    """
     # Number of images in the test-set.
     num_test = len(data.test.images)
 
@@ -183,6 +240,12 @@ def print_test_accuracy():
     # Print the accuracy.
     msg = "Accuracy on Test-Set: {0:.1%} ({1} / {2})"
     print(msg.format(acc, correct_sum, num_test))
+
+
+
+
+
+
     
 #definition de quelques paramètres importants
 learning_rate = 0.3
@@ -200,7 +263,18 @@ num_filter1 = 16
 num_filter2 = 36
 train_batch_size = 42 #256#22
 
-data = input_data.read_data_sets("/tmp/tensorflow",one_hot=True)
+
+#***************************************************************************#
+#       DEFINITION DU MODEL: ICI RESEAUX DE NEURONES COVOLUTIFS             #
+#          DEFINITION OF MODEL: HERE IS CONVOLUTIVE NETWORK                 #
+#***************************************************************************#
+
+
+
+
+
+
+#data = input_data.read_data_sets("/home/pi/Documents/Sudoku/tensor/",one_hot=True)
 data.test.cls = np.array([label.argmax() for label in data.test.labels])
 x = tf.placeholder("float",[None, img_size_flat],name='x')
 x_reshape = tf.reshape(x,shape = [-1,img_size,img_size,num_channels], name='x_reshape')
@@ -270,43 +344,93 @@ predictions = tf.equal(y_pred_cls,y_true_cls) #vector of boolean that show the m
 
 accuracy = tf.reduce_mean(tf.cast(predictions,tf.float32))
 
+
+
+
+
+
+#***************************************************************************#
+#              NOW WE ARE GOING TO START TRAINING OUR MODEL                 #
+#***************************************************************************#
+
+
+
+
 init = tf.global_variables_initializer()
 saver = tf.train.Saver()
 session = tf.Session()
 session.run(init)
-#optimize(4000)
-saver.restore(session,"/tmp/tensor/tensor_v1")
-feed_dict = {x:(255-imBox)/255}
-feed_dict1 = {x:(255-imBox1)/255}
-feed_dict2 = {x:(255-imBox2)/255}
-feed_dict3 = {x:(255-imBox3)/255}
+#optimize(4000) #if you want to train the model so uncomment this
+#saver.save(session,"./tensor/tensor_v1.0") and this to save it in the specifief directory
+
+#I had already train a model so I have just restore it here
+
+saver.restore(session,"./tensor/tensor_v1.0") #Allow you to restore previous trained session
+feed_dict = {x:(255-imBox)/255} #charge imBox which contains the cases of sudoku image with interpolation bicubic
+feed_dict1 = {x:(255-imBox1)/255} # inter_area
+feed_dict2 = {x:(255-imBox2)/255} # linear
+feed_dict3 = {x:(255-imBox3)/255} #lanczos4
 recogn = session.run(y_pred_cls,feed_dict).reshape((9,9))
-recogn1 = session.run(y_pred_cls,feed_dict1).reshape((9,9))
-recogn2 = session.run(y_pred_cls,feed_dict2).reshape((9,9))
-recogn3 = session.run(y_pred_cls,feed_dict3).reshape((9,9))
-#recogn = np.ceil((recogn+recogn1)/2)
-#recogn = recogn.astype(int)
-#path = saver.save(session,"/tmp/tensor/tensor_v1")
-#print("model path is: %s" % path)
+re = session.run(connectedLayer2,feed_dict)
+rem = np.zeros(re.shape[0])
+decision = 0
+for i in range(re.shape[0]):
+    rem[i] = re[i][re[i].argmax()]
+s = sum(rem)
+for k in range(1,4):
 
-##tf.add_to_collection("accuracy",accuracy)
-##tf.add_to_collection("y_pred_cls",y_pred_cls)
-##tf.add_to_collection("predictions",predictions)
-##tf.add_to_collection("connectedLayer1",connectedLayer1)
-##tf.add_to_collection("connectedLayer2",connectedLayer2)
+    imBox = ExtractBoxImage(ExtractBoxes(np.rot90(imB*I,k)),np.rot90(imB,k),(28,28),cv2.INTER_CUBIC)
+    feed_dict = {x:(255-imBox)/255}
+    re = session.run(connectedLayer2,feed_dict)
+    for i in range(re.shape[0]):
+        rem[i] = re[i][re[i].argmax()]
+    if(sum(rem)>s):
+        s = sum(rem)
+        decision = k
+if(decision >= 0):
 
-##for iteration in range(training_iteration):
-##    total_batch = int(mnist.train.num_examples/batch_size)
-##    avg_cost = optimizefor(total_batch)
-##    acc = session.run(accuracy)
-##    if iteration % display_step == 0:
-##        print("Iteration:",'%04d' % (iteration +1), "cost=", "{:.9f}".format(avg_cost))    
-##
-##print_accuracy(mnist.test,session)
+    #I try different interpolations to see the result (bicubic, bilinear,lanczos4,area) see opencv doc for more info
+    imBox = ExtractBoxImage(ExtractBoxes(np.rot90(imB*I,decision)),np.rot90(imB,decision),(28,28),cv2.INTER_CUBIC)
+    imBox1 = ExtractBoxImage(ExtractBoxes(np.rot90(imB*I,decision)),np.rot90(imB,decision),(28,28),cv2.INTER_AREA)
+    imBox2 = ExtractBoxImage(ExtractBoxes(np.rot90(imB*I,decision)),np.rot90(imB,decision),(28,28),cv2.INTER_LINEAR)
+    imBox3 = ExtractBoxImage(ExtractBoxes(np.rot90(imB*I,decision)),np.rot90(imB,decision),(28,28),cv2.INTER_LANCZOS4)
+    feed_dict = {x:(255-imBox)/255}
+    feed_dict1 = {x:(255-imBox1)/255}
+    feed_dict2 = {x:(255-imBox2)/255}
+    feed_dict3 = {x:(255-imBox3)/255}
+    recogn = session.run(y_pred_cls,feed_dict).reshape((9,9))
+    recogn1 = session.run(y_pred_cls,feed_dict1).reshape((9,9))
+    recogn2 = session.run(y_pred_cls,feed_dict2).reshape((9,9))
+    recogn3 = session.run(y_pred_cls,feed_dict3).reshape((9,9))
+ang = 90*decision
 
-cv2.imshow('nk',img)
 
+#This is for just in case you want to add imBox to database so you can improve (feed) your database
 
-
+###np.int_(recogn).tolist()
+##print(recogn)
+##print(recogn1)
+##print(recogn2)
+##print(recogn3)
+##res = input("Do you want to save in the database?[Y/N]\n")
+##if(res == "Y"):
+##    res = input("What recogn do you want to save?[1,2,3,4]")
+##    if(res == "1"):
+##        for i in range(len(imBox)):
+##            cv2.imwrite("./database/"+str(recogn[i/9][i%9])+"aa"+str(i)+".png",imBox[i].reshape((28,28)))
+##    res = input("What recogn do you want to save?[1,2,3,4]")
+##    if(res == "2"):
+##        for i in range(len(imBox)):
+##            cv2.imwrite("./database/"+str(recogn1[i/9][i%9])+"bb"+str(i)+".png",imBox1[i].reshape((28,28)))
+##    res = input("What recogn do you want to save?[1,2,3,4]")
+##    if(res == "3"):
+##        for i in range(len(imBox)):
+##            cv2.imwrite("./database/"+str(recogn2[i/9][i%9])+"cc"+str(i)+".png",imBox2[i].reshape((28,28)))
+##    res = input("What recogn do you want to save?[1,2,3,4]")
+##    if(res == "4"):
+##        for i in range(len(imBox)):
+##            cv2.imwrite("./database/"+str(recogn3[i/9][i%9])+"dd"+str(i)+".png",imBox3[i].reshape((28,28)))
+##else:
+##    pass
 
 

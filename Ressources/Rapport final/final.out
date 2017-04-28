@@ -1,0 +1,25 @@
+\BOOKMARK [0][-]{part.1}{I Introduction et cahier des charges}{}% 1
+\BOOKMARK [1][-]{section.1}{Introduction}{part.1}% 2
+\BOOKMARK [1][-]{section.2}{Cahier des Charges}{part.1}% 3
+\BOOKMARK [2][-]{subsection.2.1}{Cadre du projet}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.2}{Attentes des utilisateurs :}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.3}{D\351finition des objectifs}{section.2}% 6
+\BOOKMARK [2][-]{subsection.2.4}{Tests}{section.2}% 7
+\BOOKMARK [0][-]{part.2}{II R\351solution de la grille: Boucle ouverte}{}% 8
+\BOOKMARK [1][-]{section.3}{Acquisition et pr\351-traitement d'images}{part.2}% 9
+\BOOKMARK [2][-]{subsection.3.1}{Capture et traitement d'image}{section.3}% 10
+\BOOKMARK [3][-]{subsubsection.3.1.1}{Capture}{subsection.3.1}% 11
+\BOOKMARK [3][-]{subsubsection.3.1.2}{ Traitement}{subsection.3.1}% 12
+\BOOKMARK [1][-]{section.4}{D\351tection de la grille et reconnaissance des chiffres}{part.2}% 13
+\BOOKMARK [2][-]{subsection.4.1}{D\351tection de la grille}{section.4}% 14
+\BOOKMARK [2][-]{subsection.4.2}{Extraction des cases}{section.4}% 15
+\BOOKMARK [2][-]{subsection.4.3}{Reconnaissance des chiffres sur les cases}{section.4}% 16
+\BOOKMARK [1][-]{section.5}{R\351solution de la grille de Sudoku}{part.2}% 17
+\BOOKMARK [1][-]{section.6}{\311lectronique et contr\364le du d\351placement des moteurs}{part.2}% 18
+\BOOKMARK [2][-]{subsection.6.1}{Choix de conception}{section.6}% 19
+\BOOKMARK [2][-]{subsection.6.2}{Choix des composants}{section.6}% 20
+\BOOKMARK [2][-]{subsection.6.3}{Contr\364le des moteurs}{section.6}% 21
+\BOOKMARK [2][-]{subsection.6.4}{Carte PCB}{section.6}% 22
+\BOOKMARK [0][-]{part.3}{III R\351solution de la grille: Boucle ferm\351e}{}% 23
+\BOOKMARK [1][-]{section.7}{Tracking}{part.3}% 24
+\BOOKMARK [1][-]{section.8}{Boucler la boucle}{part.3}% 25

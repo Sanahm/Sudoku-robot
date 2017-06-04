@@ -1,4 +1,4 @@
-# A robot that solves and fills alone a sudoku' grids !
+# A robot that solves and fills alone a sudoku' grid !
 
 Sudoku are digital puzzles that computers can solve automatically because they obey some simple mathematical rules.
 

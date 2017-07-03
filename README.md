@@ -13,7 +13,7 @@ The main objective of this project is to build a rudimentary and autonomous robo
 
 That means the robot must be able to process the grid to be solved in order to detect the boxes already filled,their values and then proceed to filling just like the filled grid show bellow.
 
-<iframe src="https://giphy.com/embed/xUOrw6IZKuRlDwsteE" width="448" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/sudoku-robot-signal-processing-computer-vision-xUOrw6IZKuRlDwsteE">via GIPHY</a></p>
+[[https://media.giphy.com/media/xUOrw6IZKuRlDwsteE/giphy.gif]]
 
 **Required skills**
 

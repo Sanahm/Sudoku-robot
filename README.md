@@ -3,6 +3,7 @@
 Sudoku are digital puzzles that computers can solve automatically because they obey some simple mathematical rules.
 
 ![Sudoku not filled](https://upload.wikimedia.org/wikipedia/commons/f/ff/Sudoku-by-L2G-20050714.svg)
+![Sudoku filled](https://upload.wikimedia.org/wikipedia/commons/3/31/Sudoku-by-L2G-20050714_solution.svg)
 
 The main objective of this project is to build a rudimentary and autonomous robot,like plotting table, which will be able to:
 
@@ -10,11 +11,9 @@ The main objective of this project is to build a rudimentary and autonomous robo
 2. solve the Sudoku problem
 3. fill the grid
 
-That means the robot must be able to process the grid to be solved in order to detect the boxes already filled,their values and then proceed to filling.
+That means the robot must be able to process the grid to be solved in order to detect the boxes already filled,their values and then proceed to filling just like the filled grid show bellow.
 
-At the end, the result should be something like that:
-
-![Sudoku filled](https://upload.wikimedia.org/wikipedia/commons/3/31/Sudoku-by-L2G-20050714_solution.svg)
+![the robot](https://media.giphy.com/media/xUOrw6IZKuRlDwsteE/giphy.gif)
 
 **Required skills**
 

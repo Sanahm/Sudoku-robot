@@ -14,7 +14,7 @@ The main objective of this project is to build a rudimentary and autonomous robo
 That means the robot must be able to process the grid to be solved in order to detect the boxes already filled,their values and then proceed to filling just like the filled grid show bellow.
 
 
-[![asdc](https://media.giphy.com/media/xUOrw6IZKuRlDwsteE/giphy.gif)
+![jfvf](https://media.giphy.com/media/xUOrw6IZKuRlDwsteE/giphy.gif)
 
 **Required skills**
 

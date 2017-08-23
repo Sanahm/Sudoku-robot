@@ -60,6 +60,7 @@ link to youtube video (https://www.youtube.com/watch?v=cQKQf74-gNk)
 # References
 
 https://en.wikipedia.org/wiki/Sudoku
+
 A detailled report of this project can be found in ressources directory.
 
 for more information about the project don't hesitate to contact us

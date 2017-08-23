@@ -41,6 +41,8 @@ To sum up,
 <img src="https://media.giphy.com/media/xUOrw6IZKuRlDwsteE/200.gif" width="300" height="300"/>
 </p>
 
+link to youtube video (https://www.youtube.com/watch?v=cQKQf74-gNk)
+
 **Required skills**
 
 - computer vision

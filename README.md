@@ -1,4 +1,4 @@
-# A robot that solves and fills alone a sudoku's puzzles !
+# A robot that solves and fills alone a sudoku puzzles !
 <p align="center">
 <img src="https://github.com/Sanahm/Sudoku-robot/blob/master/Ressources/Rapport%20final/pp.jpg" width="400" height="400"/>
 </p>
@@ -11,7 +11,7 @@ Sudoku are digital puzzles that computers can solve automatically because they o
 The main objective of this project was to build a rudimentary and autonomous robot like 3D-printer, which will be able to:
 
 1. analyze the grid of sudoku to be filled
-2. solve the Sudoku's puzzle
+2. solve the Sudoku puzzle
 3. fill the grid
 
 That means the robot must be able to process the grid to be solved in order to detect the boxes already filled,their values and then proceed to filling.

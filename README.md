@@ -8,10 +8,10 @@ Sudoku are digital puzzles that computers can solve automatically because they o
 <img src="https://upload.wikimedia.org/wikipedia/commons/f/ff/Sudoku-by-L2G-20050714.svg" width="250" height="250"/>
 <img src="https://upload.wikimedia.org/wikipedia/commons/3/31/Sudoku-by-L2G-20050714_solution.svg" width="250" height="250"/>
 </p>
-The main objective of this project was to build a rudimentary and autonomous robot,like plotting table, which will be able to:
+The main objective of this project was to build a rudimentary and autonomous robot like 3D-printer, which will be able to:
 
 1. analyze the grid of sudoku to be filled
-2. solve the Sudoku problem
+2. solve the Sudoku's puzzle
 3. fill the grid
 
 That means the robot must be able to process the grid to be solved in order to detect the boxes already filled,their values and then proceed to filling.
